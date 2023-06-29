@@ -21,7 +21,7 @@ class RandomDataDataReader(CalibrationDataReader):
         self.data = []
         for _ in range(count):
             tmp = {}
-            for name, shape in input_cfg:
+            for name, shape in input_cfg.items():
                 tmp[name] = np.random.random(shape).astype(np.float32)
             self.data.append(tmp)
 
