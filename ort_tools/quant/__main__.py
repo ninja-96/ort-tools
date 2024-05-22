@@ -52,7 +52,9 @@ if __name__ == '__main__':
     input_cfg = shape_str_decode(args.shapes)
     reader = RandomDataDataReader(input_cfg, args.count)
 
-    file_path = os.path.dirname(args.model)
+    file_path = os.path.dirname(
+        os.path.abspath(args.model)
+    )
     file_basename = '.'.join(os.path.basename(args.model).split('.')[:-1])
     quant_file_path = os.path.normpath(
         f'{file_path}/{file_basename}_quant.onnx'
