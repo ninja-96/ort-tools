@@ -28,12 +28,12 @@ python3 -m ort_tools.speedtest -m <path to onnx model>
 - Quantization module quantize model using random input data.
 - You must set `--shapes` argument to run tools:
 ```bash
-python3 -m ort_tools.speedtest -m ./model.onnx --shape images:1x3x224x224
+python3 -m ort_tools.speedtest -m ./model.onnx --shape images:1x3x224x224:fp32
 ```
 
 If ONNX model has 2 or more inputs, just enumerate input names separated by commas:
 ```bash
-python3 -m ort_tools.speedtest -m ./model.onnx --shape images:1x3x224x224,gray_images:1x3x224x224
+python3 -m ort_tools.speedtest -m ./model.onnx --shape images:1x3x224x224:fp32,gray_images:1x3x224x224:fp32
 ```
 
 ## Built with
