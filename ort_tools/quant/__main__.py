@@ -5,7 +5,7 @@ This module stores program that quantize model.
 import argparse
 import os
 
-from onnxruntime.quantization import quantize_static, QuantType, QuantFormat
+from onnxruntime.quantization import quantize_static, QuantType, QuantFormat, quantize_dynamic
 
 from ort_tools.functional import shape_str_decode
 from ort_tools.quant.reader import RandomDataDataReader
@@ -34,12 +34,6 @@ if __name__ == '__main__':
         action='store_true'
     )
     parser.add_argument(
-        '--quant-format',
-        type=str,
-        choices=['QOperator', 'QDQ'],
-        default='QOperator'
-    )
-    parser.add_argument(
         '--activation-type',
         type=str,
         choices=['QUInt8', 'QInt8'],
@@ -64,11 +58,6 @@ if __name__ == '__main__':
         f'{file_path}/{file_basename}_quant.onnx'
     )
 
-    quant_format_map = {
-        'QOperator': QuantFormat.QOperator,
-        'QDQ': QuantFormat.QDQ
-    }
-
     quant_type_map = {
         'QUInt8': QuantType.QUInt8,
         'QInt8': QuantType.QInt8
@@ -78,7 +67,6 @@ if __name__ == '__main__':
         args.model,
         quant_file_path,
         reader,
-        quant_format=quant_format_map[args.quant_format],
         per_channel=not args.not_per_channel,
         activation_type=quant_type_map[args.activation_type],
         weight_type=quant_type_map[args.weight_type]

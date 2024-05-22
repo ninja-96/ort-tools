@@ -22,13 +22,15 @@ if __name__ == '__main__':
         '-w', '--warm-up',
         type=int,
         default=5,
-        choices=range(2, 15)
+        choices=range(2, 15),
+        metavar="[2-15]"
     )
     parser.add_argument(
         '-r', '--repeats',
         type=int,
         default=50,
-        choices=range(5, 100)
+        choices=range(5, 100),
+        metavar="[5-100]"
     )
 
     parser.add_argument(
@@ -79,16 +81,16 @@ if __name__ == '__main__':
     print('Warmup...')
     for _ in range(args.warm_up):
         d = {}
-        for n, s in input_cfg.items():
-            d[n] = np.random.random(s).astype(np.float32)
+        for n, cfg in input_cfg.items():
+            d[n] = np.random.random(size=cfg['shape']).astype(cfg['dtype'])
         r = model.run(None, d)
 
     print('Benchmark...')
     avg_time = 0
     for _ in range(args.repeats):
         d = {}
-        for n, s in input_cfg.items():
-            d[n] = np.random.random(s).astype(np.float32)
+        for n, cfg in input_cfg.items():
+            d[n] = np.random.random(size=cfg['shape']).astype(cfg['dtype'])
 
         s = time.time()
         r = model.run(None, d)
